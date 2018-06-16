@@ -74,6 +74,7 @@
 				BF181DA520D54C5F000C416E /* Sources */,
 				BF181DA620D54C5F000C416E /* Frameworks */,
 				BF181DA720D54C5F000C416E /* Resources */,
+				BF181DBE20D54D89000C416E /* Run Script for Carthage */,
 			);
 			buildRules = (
 			);
@@ -96,6 +97,11 @@
 				TargetAttributes = {
 					BF181DA820D54C5F000C416E = {
 						CreatedOnToolsVersion = 9.4.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -129,6 +135,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BF181DBE20D54D89000C416E /* Run Script for Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/TwilioVoice.framework",
+			);
+			name = "Run Script for Carthage";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BF181DA520D54C5F000C416E /* Sources */ = {
