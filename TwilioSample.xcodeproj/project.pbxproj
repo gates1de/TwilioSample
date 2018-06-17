@@ -12,7 +12,7 @@
 		BF181DB220D54C5F000C416E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF181DB020D54C5F000C416E /* Main.storyboard */; };
 		BF181DB420D54C61000C416E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF181DB320D54C61000C416E /* Assets.xcassets */; };
 		BF181DB720D54C61000C416E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF181DB520D54C61000C416E /* LaunchScreen.storyboard */; };
-		BF181DC120D5E20D000C416E /* TwilioVoice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF181DC020D5E20D000C416E /* TwilioVoice.framework */; };
+		BF181DC320D656B2000C416E /* TwilioVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF181DC220D656B2000C416E /* TwilioVideo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +24,7 @@
 		BF181DB620D54C61000C416E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BF181DB820D54C61000C416E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF181DC020D5E20D000C416E /* TwilioVoice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwilioVoice.framework; path = Carthage/Build/iOS/TwilioVoice.framework; sourceTree = "<group>"; };
+		BF181DC220D656B2000C416E /* TwilioVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwilioVideo.framework; path = Carthage/Build/iOS/TwilioVideo.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,7 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF181DC120D5E20D000C416E /* TwilioVoice.framework in Frameworks */,
+				BF181DC320D656B2000C416E /* TwilioVideo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +72,7 @@
 		BF181DBF20D5E20D000C416E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BF181DC220D656B2000C416E /* TwilioVideo.framework */,
 				BF181DC020D5E20D000C416E /* TwilioVoice.framework */,
 			);
 			name = Frameworks;
@@ -155,7 +157,7 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/TwilioVoice.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/TwilioVideo.framework",
 			);
 			name = "Run Script for Carthage";
 			outputPaths = (
