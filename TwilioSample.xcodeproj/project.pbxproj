@@ -12,6 +12,7 @@
 		BF181DB220D54C5F000C416E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF181DB020D54C5F000C416E /* Main.storyboard */; };
 		BF181DB420D54C61000C416E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF181DB320D54C61000C416E /* Assets.xcassets */; };
 		BF181DB720D54C61000C416E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF181DB520D54C61000C416E /* LaunchScreen.storyboard */; };
+		BF181DC120D5E20D000C416E /* TwilioVoice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF181DC020D5E20D000C416E /* TwilioVoice.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		BF181DB320D54C61000C416E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BF181DB620D54C61000C416E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BF181DB820D54C61000C416E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BF181DC020D5E20D000C416E /* TwilioVoice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwilioVoice.framework; path = Carthage/Build/iOS/TwilioVoice.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF181DC120D5E20D000C416E /* TwilioVoice.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +43,7 @@
 			children = (
 				BF181DAB20D54C5F000C416E /* TwilioSample */,
 				BF181DAA20D54C5F000C416E /* Products */,
+				BF181DBF20D5E20D000C416E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,6 +66,14 @@
 				BF181DB820D54C61000C416E /* Info.plist */,
 			);
 			path = TwilioSample;
+			sourceTree = "<group>";
+		};
+		BF181DBF20D5E20D000C416E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BF181DC020D5E20D000C416E /* TwilioVoice.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,6 +318,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HYP4BUD3C6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = TwilioSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -324,6 +340,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HYP4BUD3C6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = TwilioSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
