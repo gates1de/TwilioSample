@@ -17,7 +17,9 @@ class ViewController: UIViewController {
 
     private var localAudioTrack = TVILocalAudioTrack()
 
-    private var localVideoTrack : TVILocalVideoTrack?
+    private var localVideoTrack: TVILocalVideoTrack?
+
+    private var remoteParticipant: TVIRemoteParticipant?
 
 
     @IBOutlet fileprivate weak var localView: UIView!
@@ -31,7 +33,17 @@ class ViewController: UIViewController {
             return
         }
 
+        self.showLocalView()
+
         let connectOptions = TVIConnectOptions.init(token: token) { builder in
+            if let localAudioTrack = self.localAudioTrack {
+                builder.audioTracks = [localAudioTrack]
+            }
+
+            if let localVideoTrack = self.localVideoTrack {
+                builder.videoTracks = [localVideoTrack]
+            }
+
             builder.roomName = "test_room"
         }
 
@@ -41,17 +53,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if let camera = TVICameraCapturer(source: .frontCamera) {
-            self.localVideoTrack = TVILocalVideoTrack.init(capturer: camera)
-        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 
     fileprivate func showLocalView() {
         if let camera = TVICameraCapturer(source: .frontCamera),
@@ -80,9 +82,12 @@ extension ViewController: TVIRoomDelegate {
             self.showLocalView()
         }
 
-        // Connected participants
-        let participants = room.remoteParticipants
-        print("Number of connected Participants \(participants.count)")
+        if (room.remoteParticipants.count > 0) {
+            self.remoteParticipant = room.remoteParticipants.first
+            self.remoteParticipant?.delegate = self
+        }
+
+        print("Number of connected Participants \(room.remoteParticipants.count)")
     }
 
     func room(_ room: TVIRoom, didFailToConnectWithError error: Error) {
@@ -91,6 +96,8 @@ extension ViewController: TVIRoomDelegate {
 
     func room(_ room: TVIRoom, participantDidConnect participant: TVIRemoteParticipant) {
         print ("Participant \(participant.identity) has joined Room \(room.name)")
+        self.remoteParticipant = participant
+        self.remoteParticipant?.delegate = self
     }
 
     func room(_ room: TVIRoom, participantDidDisconnect participant: TVIRemoteParticipant) {
@@ -101,23 +108,21 @@ extension ViewController: TVIRoomDelegate {
 
 extension ViewController: TVIRemoteParticipantDelegate {
 
-    func participant(_ participant: TVIParticipant, addedVideoTrack videoTrack: TVIVideoTrack) {
-        print("Participant \(participant.identity) added video track")
-
-        if let remoteVideoView = TVIVideoView(frame: self.remoteView.bounds, delegate: self) {
-            videoTrack.addRenderer(remoteVideoView)
-
-            self.remoteView.addSubview(remoteVideoView)
-        }
-    }
-
-    // MARK: TVIVideoViewDelegate
-
     func videoView(_ view: TVIVideoView, videoDimensionsDidChange dimensions: CMVideoDimensions) {
         print("The dimensions of the video track changed to: \(dimensions.width)x\(dimensions.height)")
         self.view.setNeedsLayout()
     }
 
+    func subscribed(to videoTrack: TVIRemoteVideoTrack, publication: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
+        print("subscribed \(participant.identity)")
+
+        if let _ = self.remoteParticipant {
+            if let remoteVideoView = TVIVideoView(frame: self.remoteView.bounds, delegate: self) {
+                videoTrack.addRenderer(remoteVideoView)
+                self.remoteView.addSubview(remoteVideoView)
+            }
+        }
+    }
 }
 
 extension ViewController: TVIVideoViewDelegate {
