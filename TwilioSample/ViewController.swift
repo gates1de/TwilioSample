@@ -15,12 +15,15 @@ class ViewController: UIViewController {
 
     private var camera: TVICameraCapturer?
 
+    private var localVideoView: TVIVideoView?
+
     private var localAudioTrack = TVILocalAudioTrack()
 
     private var localVideoTrack: TVILocalVideoTrack?
 
     private var remoteParticipant: TVIRemoteParticipant?
 
+    private var remoteVideoView: TVIVideoView?
 
     @IBOutlet fileprivate weak var localView: UIView!
 
@@ -36,14 +39,8 @@ class ViewController: UIViewController {
         self.showLocalView()
 
         let connectOptions = TVIConnectOptions.init(token: token) { builder in
-            if let localAudioTrack = self.localAudioTrack {
-                builder.audioTracks = [localAudioTrack]
-            }
-
-            if let localVideoTrack = self.localVideoTrack {
-                builder.videoTracks = [localVideoTrack]
-            }
-
+            builder.audioTracks = self.localAudioTrack != nil ? [self.localAudioTrack!] : []
+            builder.videoTracks = self.localVideoTrack != nil ? [self.localVideoTrack!] : []
             builder.roomName = "test_room"
         }
 
@@ -56,18 +53,16 @@ class ViewController: UIViewController {
     }
 
     fileprivate func showLocalView() {
-        if let camera = TVICameraCapturer(source: .frontCamera),
-            let videoTrack = TVILocalVideoTrack(capturer: camera) {
-
-            // TVIVideoView is a TVIVideoRenderer and can be added to any TVIVideoTrack.
-            let renderer = TVIVideoView(frame: self.localView.bounds)
+        if let camera = TVICameraCapturer(source: .frontCamera), let videoTrack = TVILocalVideoTrack(capturer: camera) {
+            let localVideoView = TVIVideoView(frame: self.localView.bounds)
+            self.localVideoView = localVideoView
 
             // Add renderer to the video track
-            videoTrack.addRenderer(renderer)
+            videoTrack.addRenderer(localVideoView)
 
             self.localVideoTrack = videoTrack
             self.camera = camera
-            self.localView.addSubview(renderer)
+            self.localView.addSubview(localVideoView)
         } else {
             print("Couldn't create TVICameraCapturer or TVILocalVideoTrack")
         }
@@ -96,8 +91,12 @@ extension ViewController: TVIRoomDelegate {
 
     func room(_ room: TVIRoom, participantDidConnect participant: TVIRemoteParticipant) {
         print ("Participant \(participant.identity) has joined Room \(room.name)")
-        self.remoteParticipant = participant
-        self.remoteParticipant?.delegate = self
+
+        guard let _ = self.remoteParticipant else {
+            self.remoteParticipant = participant
+            self.remoteParticipant?.delegate = self
+            return
+        }
     }
 
     func room(_ room: TVIRoom, participantDidDisconnect participant: TVIRemoteParticipant) {
@@ -109,7 +108,6 @@ extension ViewController: TVIRoomDelegate {
 extension ViewController: TVIRemoteParticipantDelegate {
 
     func videoView(_ view: TVIVideoView, videoDimensionsDidChange dimensions: CMVideoDimensions) {
-        print("The dimensions of the video track changed to: \(dimensions.width)x\(dimensions.height)")
         self.view.setNeedsLayout()
     }
 
@@ -118,10 +116,21 @@ extension ViewController: TVIRemoteParticipantDelegate {
 
         if let _ = self.remoteParticipant {
             if let remoteVideoView = TVIVideoView(frame: self.remoteView.bounds, delegate: self) {
+                self.remoteVideoView = remoteVideoView
                 videoTrack.addRenderer(remoteVideoView)
                 self.remoteView.addSubview(remoteVideoView)
             }
         }
+    }
+
+    func unsubscribed(from videoTrack: TVIRemoteVideoTrack, publication: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
+        if let _ = self.remoteParticipant, let remoteVideoView = self.remoteVideoView {
+            videoTrack.removeRenderer(remoteVideoView)
+            remoteVideoView.removeFromSuperview()
+            self.remoteVideoView = nil
+        }
+
+        self.remoteParticipant = nil
     }
 }
 
