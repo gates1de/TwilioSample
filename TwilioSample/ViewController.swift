@@ -29,6 +29,21 @@ class ViewController: UIViewController {
 
     @IBOutlet fileprivate weak var remoteView: UIView!
 
+    private let supportedAudioCodecs: [TVIAudioCodec] = [
+        TVIIsacCodec(),
+        TVIOpusCodec(),
+        TVIPcmaCodec(),
+        TVIPcmuCodec(),
+        TVIG722Codec()
+    ]
+
+    private let supportedVideoCodecs: [TVIVideoCodec] = [
+        TVIVp8Codec(),
+        TVIVp8Codec(simulcast: true),
+        TVIH264Codec(),
+        TVIVp9Codec()
+    ]
+
 
     @IBAction func didTapJoinRoomButton(_ sender: UIButton) {
         // NOTE: Token includes '"', so remove '"'
@@ -36,11 +51,15 @@ class ViewController: UIViewController {
             return
         }
 
-        self.showLocalView()
+        self.showLocalVideoView()
 
         let connectOptions = TVIConnectOptions.init(token: token) { builder in
             builder.audioTracks = self.localAudioTrack != nil ? [self.localAudioTrack!] : []
             builder.videoTracks = self.localVideoTrack != nil ? [self.localVideoTrack!] : []
+
+            builder.preferredAudioCodecs = self.supportedAudioCodecs
+            builder.preferredVideoCodecs = self.supportedVideoCodecs
+
             builder.roomName = "test_room"
         }
 
@@ -52,7 +71,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
     }
 
-    fileprivate func showLocalView() {
+    fileprivate func showLocalVideoView() {
         if let camera = TVICameraCapturer(source: .frontCamera), let videoTrack = TVILocalVideoTrack(capturer: camera) {
             let localVideoView = TVIVideoView(frame: self.localView.bounds)
             self.localVideoView = localVideoView
@@ -67,16 +86,15 @@ class ViewController: UIViewController {
             print("Couldn't create TVICameraCapturer or TVILocalVideoTrack")
         }
     }
+
+    fileprivate func dismissLocalVideoView() {
+        self.localVideoView?.removeFromSuperview()
+    }
 }
 
 extension ViewController: TVIRoomDelegate {
 
     func didConnect(to room: TVIRoom) {
-        if let localParticipant = room.localParticipant {
-            print("Local identity \(localParticipant.identity)")
-            self.showLocalView()
-        }
-
         if (room.remoteParticipants.count > 0) {
             self.remoteParticipant = room.remoteParticipants.first
             self.remoteParticipant?.delegate = self
@@ -85,8 +103,14 @@ extension ViewController: TVIRoomDelegate {
         print("Number of connected Participants \(room.remoteParticipants.count)")
     }
 
+    func room(_ room: TVIRoom, didDisconnectWithError error: Error?) {
+        print("Disconnected with: \(error)")
+        self.dismissLocalVideoView()
+    }
+
     func room(_ room: TVIRoom, didFailToConnectWithError error: Error) {
         print("Failed to connect: \(error)")
+        self.dismissLocalVideoView()
     }
 
     func room(_ room: TVIRoom, participantDidConnect participant: TVIRemoteParticipant) {
@@ -106,10 +130,6 @@ extension ViewController: TVIRoomDelegate {
 }
 
 extension ViewController: TVIRemoteParticipantDelegate {
-
-    func videoView(_ view: TVIVideoView, videoDimensionsDidChange dimensions: CMVideoDimensions) {
-        self.view.setNeedsLayout()
-    }
 
     func subscribed(to videoTrack: TVIRemoteVideoTrack, publication: TVIRemoteVideoTrackPublication, for participant: TVIRemoteParticipant) {
         print("subscribed \(participant.identity)")
@@ -136,6 +156,9 @@ extension ViewController: TVIRemoteParticipantDelegate {
 
 extension ViewController: TVIVideoViewDelegate {
 
+    func videoView(_ view: TVIVideoView, videoDimensionsDidChange dimensions: CMVideoDimensions) {
+        self.view.setNeedsLayout()
+    }
 }
 
 struct TokenUtils {

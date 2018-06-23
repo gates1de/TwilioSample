@@ -27,23 +27,6 @@
                                     <action selector="didTapJoinRoomButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="48k-k0-mjb"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yCc-J0-boC">
-                                <rect key="frame" x="0.0" y="90" width="112.5" height="150"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Local View" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="knA-Mx-fvo">
-                                        <rect key="frame" x="15.5" y="65" width="82" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.20291526845637584" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="knA-Mx-fvo" firstAttribute="centerY" secondItem="yCc-J0-boC" secondAttribute="centerY" id="s5B-fG-mhi"/>
-                                    <constraint firstItem="knA-Mx-fvo" firstAttribute="centerX" secondItem="yCc-J0-boC" secondAttribute="centerX" id="wAY-jV-6BZ"/>
-                                    <constraint firstAttribute="width" secondItem="yCc-J0-boC" secondAttribute="height" multiplier="3:4" id="ySe-If-mJw"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="60R-0i-vJ2">
                                 <rect key="frame" x="0.0" y="90" width="375" height="500"/>
                                 <subviews>
@@ -59,6 +42,23 @@
                                     <constraint firstItem="v8q-Q0-yRq" firstAttribute="centerY" secondItem="60R-0i-vJ2" secondAttribute="centerY" id="0fg-8p-sBu"/>
                                     <constraint firstAttribute="width" secondItem="60R-0i-vJ2" secondAttribute="height" multiplier="3:4" id="V9P-ie-43e"/>
                                     <constraint firstItem="v8q-Q0-yRq" firstAttribute="centerX" secondItem="60R-0i-vJ2" secondAttribute="centerX" id="Y0e-gS-fdC"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yCc-J0-boC">
+                                <rect key="frame" x="0.0" y="90" width="112.5" height="150"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Local View" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="knA-Mx-fvo">
+                                        <rect key="frame" x="15.5" y="65" width="82" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.20291526845637584" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="knA-Mx-fvo" firstAttribute="centerY" secondItem="yCc-J0-boC" secondAttribute="centerY" id="s5B-fG-mhi"/>
+                                    <constraint firstItem="knA-Mx-fvo" firstAttribute="centerX" secondItem="yCc-J0-boC" secondAttribute="centerX" id="wAY-jV-6BZ"/>
+                                    <constraint firstAttribute="width" secondItem="yCc-J0-boC" secondAttribute="height" multiplier="3:4" id="ySe-If-mJw"/>
                                 </constraints>
                             </view>
                         </subviews>
